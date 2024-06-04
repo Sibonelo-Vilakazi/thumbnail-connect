@@ -1,0 +1,19 @@
+{
+    "username": "Sibonelo Vilakazi",
+    "image": "https://media.licdn.com/dms/image/D4D03AQF-ozf7M2-Feg/profile-displayphoto-shrink_200_200/0/1686055683536?e=1720051200&v=beta&t=aCpuAsIvROgT7hOprFK9C8j0KC2Rb3ACaEH3Taqa3kQ",
+    "bioDescription": "I am a full stack software developer",
+    "followers":[
+        {
+            "counter": 10,
+            "description": "posts"
+        },
+        {
+            "counter": 100,
+            "description": "followers"
+        },
+        {
+            "counter": 200,
+            "description": "following"
+        }
+    ]
+}
