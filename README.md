@@ -1,0 +1,1 @@
+npm install @types/react @types/react-native @types/expo

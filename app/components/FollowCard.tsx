@@ -1,11 +1,15 @@
 import { View, Text, Image, StyleSheet, Touchable, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { globalStyles } from '../global/globalStyles'
+type FollowCardConfig = {
+    isFollowing: boolean,
+    fullName: string,
 
-const FollowCard = ({config}) => {
+}
+const FollowCard = ({config} : {config: FollowCardConfig}) => {
   return (
     <View style={styles.container}>
-      <Image style={styles} source={require('../../assets/profile_1.png')} />
+      <Image style={styles.image} source={require('../../assets/profile_1.png')} />
       <View style={styles.infoContainer}>
         <View style={styles.textContainer}>
             <Text style={styles.fullName}>{config.fullName}</Text>
@@ -20,6 +24,7 @@ const FollowCard = ({config}) => {
   )
 }
 const styles = StyleSheet.create({
+    
     container: {
         flexDirection: 'row',
         columnGap: 16,

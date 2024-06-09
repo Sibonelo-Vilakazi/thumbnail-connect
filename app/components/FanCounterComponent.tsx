@@ -1,7 +1,12 @@
 import { View, Text, StyleSheet, Touchable, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const FanCounterComponent = ({counter, description, onPress}) => {
+type FanCounterComponentConfig = {
+  counter: number, 
+  description: string, 
+  onPress: () => any
+}
+const FanCounterComponent = ({counter, description, onPress} : FanCounterComponentConfig) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.counterContainer}>
       <Text style={styles.counter}>{counter}</Text>

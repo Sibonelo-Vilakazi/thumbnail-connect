@@ -2,7 +2,16 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import { TextInput } from 'react-native-paper';
-const feedComponent = ({config}) => {
+
+type feedComponentConfig = {
+    fullName: string,
+    postUserProfile: any,
+    datePosted: string,
+    feedImage: any,
+    numLikes: number,
+    userProfile: any
+}
+const feedComponent = ({config}: {config: feedComponentConfig}) => {
   return (
     <View style={styles.postContainer}>
         <View style={styles.profileContainer}>

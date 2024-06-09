@@ -1,12 +1,17 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
-const CustomTab = ({tabs, renderContent, currentIndex}) => {
+type CustomTabConfig = {
+    tabs: any[],
+    renderContent: (content: any) => any,
+    currentIndex: number
+}
+const CustomTab = ({tabs, renderContent, currentIndex}: CustomTabConfig) => {
     useEffect(() => {
         setActiveTabIndex(currentIndex)
     }, [])
     const [activeTabIndex, setActiveTabIndex] = useState(0);
-    const handleTabPress = (index) => {
+    const handleTabPress = (index: number) => {
         setActiveTabIndex(index)
     }
   return (

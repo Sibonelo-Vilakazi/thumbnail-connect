@@ -2,7 +2,15 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import FanCounterComponent from './FanCounterComponent';
 
-const ProfileHeaderComponent = ({config}) => {
+type ProfileHeaderComponentConfig = {
+  onPress: () => any,
+  image: string,
+  followers: any [],
+  username: string,
+  bioDescription: string,
+  
+}
+const ProfileHeaderComponent = ({config}: {config: ProfileHeaderComponentConfig}) => {
   console.log('Profile: ', config)
   return (
     <View>

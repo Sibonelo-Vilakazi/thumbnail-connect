@@ -2,7 +2,10 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-const OAuthContainer = ({iconName}) => {
+type OAuthContainerConfig = {
+  iconName: any
+}
+const OAuthContainer = ({iconName}: OAuthContainerConfig) => {
   return (
     <View style={styles.container}>
       <FontAwesome name={iconName} size={24} color={'black'} />

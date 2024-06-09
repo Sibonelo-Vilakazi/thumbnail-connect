@@ -1,7 +1,14 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native'
-import React from 'react'
+import React from 'react';
 
-const DiscoverComponent = ({config}) => {
+type DiscoverComponentConfig = {
+  fullName: string,
+  mutualFriends: number,
+  image: string,
+
+}
+
+const DiscoverComponent = ({config}: {config: DiscoverComponentConfig}) => {
     
   return (
     <View style={styles.discoverContainer}>
