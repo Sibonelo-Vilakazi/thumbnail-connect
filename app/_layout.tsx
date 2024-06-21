@@ -6,7 +6,7 @@ import { PaperProvider } from 'react-native-paper';
 export default function AppLayout() {
   const router = useRouter();
   useEffect(() =>{
-    router.push('screens/followers/followers')
+    router.push('auth/signIn');
   }, [])
   return (
   <PaperProvider>

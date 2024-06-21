@@ -3,13 +3,16 @@ import React from 'react'
 
 type CustomInput ={
   placeholder: string,
-  isSecure: boolean
+  isSecure: boolean,
+  handleInput: (input: string) => void
 }
-const CustomInput = ({placeholder, isSecure}: CustomInput) => {
+const CustomInput = ({placeholder, isSecure = false, handleInput}: CustomInput) => {
   return (
     <View>
       <TextInput placeholder={placeholder} style={styles.textInput} 
         secureTextEntry={isSecure}
+        autoCapitalize='none'
+        onChangeText={(text) => handleInput(text)}
       placeholderTextColor={'#626262'}  />
     </View>
   )

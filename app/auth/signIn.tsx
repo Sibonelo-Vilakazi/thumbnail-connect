@@ -1,13 +1,48 @@
 import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import React from 'react'
+import React, { useState } from 'react'
 import CustomInput from '../components/customInput';
 import { useRouter } from 'expo-router';
 import OAuthContainer from '../components/OAuthContainer';
+import { AuthState } from '../interfaces/auth-state.interface';
+import { Helpers } from '../helpers/helpers';
+import { AuthService } from '../services/authService';
 
 
 const signIn = () => {
     const oauthArray = ['google', 'facebook', 'apple'];
     const router = useRouter();
+    const [emailError, setEmailError] = useState('');
+    const [loginError, setLoginError] = useState('');
+     const [authData, setAuthData] = useState<{password: string, email: string}>({
+        password: '',
+        email: ''
+    });
+
+    const handleSubmit = async () => {
+        const helper = new Helpers();
+        console.log('isValid Email: ', );
+        setEmailError('');
+        setLoginError('');
+        if(!helper.isValidEmail(authData.email)){
+            // error invalid email message
+            setEmailError('Invalid email');
+            return;
+        }
+
+
+        const authService = new AuthService();
+
+        const response = await authService.logIn(authData);
+
+        if(response.success){
+            console.log("Logged: ", response.data) 
+            await authService.setUser(response.data);
+            router.push('(tabs)')
+        } else {
+            setLoginError('Incorrect username or password');
+            console.error(response)
+        }
+    }
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -18,12 +53,20 @@ const signIn = () => {
         </View>
 
         <View style={styles.inputContainer}>
-            <CustomInput placeholder={'Email'}/>
-            <CustomInput placeholder={'Password'} isSecure={true}/>
+            <View>
+            <CustomInput handleInput={(text) => setAuthData((prev) => ({...prev, email: text}))} placeholder={'Email'} />
+            {emailError && <Text style={{color: 'red', marginTop: 8}}>{emailError}</Text>}
+            </View>
+            <View>
+            <CustomInput handleInput={(text) => 
+                setAuthData((prev) => ({...prev, password: text}))}
+             placeholder={'Password'} isSecure={true}/>
+            {loginError && <Text style={{color: 'red', marginTop: 8}}>{loginError}</Text>}
+            </View>
         </View>
         <Text style={styles.forgotText}>Forgot your password?</Text>
 
-        <TouchableOpacity style={styles.button} onPress={() => { router.push('(tabs)')}}>
+        <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
             <Text style={styles.btnText}>Sign in</Text>
         </TouchableOpacity>   
 

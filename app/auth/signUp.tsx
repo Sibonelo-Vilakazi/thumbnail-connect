@@ -1,13 +1,57 @@
 import { View, Text, StyleSheet, SafeAreaView} from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native';
 import CustomInput from '../components/customInput';
 import { useRouter } from 'expo-router';
 import OAuthContainer from '../components/OAuthContainer';
+import { Helpers } from '../helpers/helpers';
+import { AuthService } from '../services/authService';
 
 const signUp = () => {
     const oauthArray = ['google', 'facebook-square', 'apple'];
     const router = useRouter();
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [registerError, setRegisterError] = useState('');
+    const [authData, setAuthData] = useState<{password: string, 
+        email: string, confirmPassword: string}>({
+        password: '',
+        confirmPassword: '',
+        email: ''
+    });
+
+    const handleRegister = async () => {
+        const helper = new Helpers();
+        
+        setEmailError('');
+        setRegisterError('');
+        setPasswordError('')
+        if(!helper.isValidEmail(authData.email)){
+            // error invalid email message
+            setEmailError('Invalid email');
+            return;
+        }
+
+        
+        if (authData.confirmPassword !== authData.password){
+            setPasswordError('Password do not match');
+            return;
+        }
+
+        const authService = new AuthService();
+
+        const response = await authService.register(authData);
+
+        if(response.success){
+            console.log("register: ", response.data) 
+            await authService.setUser(response.data);
+            router.push('auth/signIn')
+        } else {
+            setRegisterError('Something when wrong');
+            console.error('My Error: ', {...response.error})
+        }
+        console.log(authData)
+    }
   return (
     <SafeAreaView>
       <View style={styles.container}>
@@ -18,17 +62,34 @@ const signUp = () => {
         </View>
 
         <View style={styles.inputContainer}>
-            <CustomInput placeholder={'Email'}/>
-            <CustomInput placeholder={'Password'} isSecure={true}/>
-            <CustomInput placeholder={'Confirm Password'} isSecure={true}/>
+            
+            <View>
+            <CustomInput
+                handleInput={(text) => 
+                    setAuthData((prev) => ({...prev, email: text}))}
+            placeholder={'Email'}/>
+            {emailError && <Text style={{color: 'red', marginTop: 8}}>{emailError}</Text>}
+            </View>
+            <CustomInput
+                handleInput={(text) => 
+                    setAuthData((prev) => ({...prev, password: text}))}
+            placeholder={'Password'} isSecure={true}/>
+            
+            <View>
+                <CustomInput 
+                    handleInput={(text) => 
+                        setAuthData((prev) => ({...prev, confirmPassword: text}))}
+                placeholder={'Confirm Password'} isSecure={true}/>
+                {passwordError && <Text style={{color: 'red', marginTop: 8}}>{passwordError}</Text>}
+            </View>
         </View>
        
-        <TouchableOpacity style={[styles.button , {marginTop: 30}]} onPress={() => {}}>
+        <TouchableOpacity style={[styles.button , {marginTop: 30}]} onPress={() => handleRegister()}>
             <Text style={styles.btnText}>Sign up</Text>
         </TouchableOpacity>   
 
         <Text style={[styles.accountText, styles.smallSemiBold]}
-            onPress={() => router.push('auth/signIn')}
+            onPress={() => {router.push('auth/signIn') }}
         >Already have an account</Text>
 
         <View >
